@@ -11,6 +11,8 @@ export default {
   'menu.form.stepform.confirm': '分步表单（确认转账信息）',
   'menu.form.stepform.result': '分步表单（完成）',
   'menu.form.advancedform': '高级表单',
+  'menu.activityManage': '活动管理',
+  'menu.participantsmanage': '受测者管理',
   'menu.list': '列表页',
   'menu.list.searchtable': '查询表格',
   'menu.list.demo': '变强',

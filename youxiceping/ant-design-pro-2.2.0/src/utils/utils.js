@@ -2,6 +2,7 @@ import moment from 'moment';
 import React from 'react';
 import nzh from 'nzh/cn';
 import { parse, stringify } from 'qs';
+import { message } from 'antd'
 
 export function fixedZero(val) {
   return val * 1 < 10 ? `0${val}` : val;
@@ -180,4 +181,42 @@ export function formatWan(val) {
 // 给官方演示站点用，用于关闭真实开发环境不需要使用的特性
 export function isAntdPro() {
   return window.location.hostname === 'preview.pro.ant.design';
+}
+
+export function mapToObject(list, key) {
+  if (!list || !list.length) return list
+  const data = {}
+  list.forEach(ele => {
+    data[ele[key]] = ele
+  })
+  return data
+}
+
+// 类型判断
+const isType = type => obj => obj != null && Object.prototype.toString.call(obj) === `[object ${type}]`
+
+export const isFn = isType('Function')
+export const isArr = Array.isArray || isType('Array')
+export const isObj = val => typeof val === 'object'
+export const isStr = isType('String');
+
+export function trim(str = '') {
+  if (!isStr(str)) return str;
+  return str.replace(/^\s+|\s+$/g, '');
+}
+
+// 表单值去除空格
+export function trimFormValue(formDate, excludeArr = []) {
+  const copyFormDate = { ...formDate }
+  Object.keys(copyFormDate).forEach(ele => {
+    if (excludeArr.indexOf(copyFormDate[ele]) > -1) return;
+    if (typeof copyFormDate[ele] === 'string') {
+      copyFormDate[ele] = trim(copyFormDate[ele])
+    }
+  })
+  return copyFormDate
+}
+
+export function showMessage(methodName, content, onClose) {
+  message[methodName](content, 1.5, onClose);
 }

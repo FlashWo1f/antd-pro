@@ -5,6 +5,7 @@ let CURRENT = 'NULL';
  * @param {string|()=>String} currentAuthority
  */
 const renderAuthorize = Authorized => currentAuthority => {
+  // console.log('AuthoritycurrentAuthority', currentAuthority, Authorized)
   if (currentAuthority) {
     if (typeof currentAuthority === 'function') {
       CURRENT = currentAuthority();
@@ -18,6 +19,7 @@ const renderAuthorize = Authorized => currentAuthority => {
   } else {
     CURRENT = 'NULL';
   }
+  console.log('比较1', CURRENT)
   return Authorized;
 };
 

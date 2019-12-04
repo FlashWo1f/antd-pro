@@ -46,6 +46,7 @@ export default [
         path: '/form',
         icon: 'form',
         name: 'form',
+        // authority: ['admin', 'user'],
         routes: [
           {
             path: '/form/basic-form',
@@ -147,6 +148,19 @@ export default [
         name: 'businessinfo',
         icon: 'project',
         component: './Businessinfo/Businessinfo'
+      },
+      {
+        path: '/participantsmanage',
+        name: 'participantsmanage',
+        icon: 'team',
+        // authority: ["admin"],
+        component: './ParticipantsManage'
+      },
+      {
+        path: '/activityManage',
+        name: 'activityManage',
+        icon: 'flag',
+        component: './ActivityManage'
       },
       {
         path: '/profile',

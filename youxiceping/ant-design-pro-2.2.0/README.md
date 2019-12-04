@@ -2,6 +2,22 @@ English | [简体中文](./README.zh-CN.md) | [Русский](./README.ru-RU.md
 
 <h1 align="center">Ant Design Pro</h1>
 
+## 关于权限管理
+@/components/Authorized/checkPermissions
+  里的checkPermissions方法对用户的权限和需要的权限进行对比 有array string promise 以及function
+/**
+ * 通用权限检查方法
+ * Common check permissions method
+ * @param { 权限判定 Permission judgment type string |array | Promise | Function } authority
+ * @param { 你的权限 Your permission description  type:string} currentAuthority
+ * @param { 通过的组件 Passing components } target
+ * @param { 未通过的组件 no pass components } Exception
+ */
+getAuthority方法获取localStroage的权限值或者传入的权限值
+然后把获取到的权限值比如['user']传入
+const Authorized = RenderAuthorized(['user'])
+@/components/Authorized/checkPermissions的Authorized方法对CheckPermissions方法进行包装（传入children）
+<!-- 把权限设置一下看看，就是把默认所以用户都可以查看注释掉 -->
 <div align="center">
 
 An out-of-box UI solution for enterprise applications as a React boilerplate.

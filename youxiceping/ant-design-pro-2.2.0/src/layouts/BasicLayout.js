@@ -168,6 +168,7 @@ class BasicLayout extends React.PureComponent {
 
     const isTop = PropsLayout === 'topmenu';
     const routerConfig = this.getRouterAuthority(pathname, routes);
+    console.log('hahahah a', pathname, routes, routerConfig)
     const contentStyle = !fixedHeader ? { paddingTop: 0 } : {};
     const layout = (
       <Layout>
@@ -196,6 +197,8 @@ class BasicLayout extends React.PureComponent {
           />
           <Content className={styles.content} style={contentStyle}>
             <Authorized authority={routerConfig} noMatch={<Exception403 />}>
+              {/* TODOTODO */}
+              {console.log('routerConfigrouterConfig', routerConfig)}
               {children}
             </Authorized>
           </Content>
