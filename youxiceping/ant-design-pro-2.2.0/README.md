@@ -18,6 +18,9 @@ getAuthority方法获取localStroage的权限值或者传入的权限值
 const Authorized = RenderAuthorized(['user'])
 @/components/Authorized/checkPermissions的Authorized方法对CheckPermissions方法进行包装（传入children）
 <!-- 把权限设置一下看看，就是把默认所以用户都可以查看注释掉 -->
+## 神奇的属性
+contentEditable=true
+文本可编辑
 <div align="center">
 
 An out-of-box UI solution for enterprise applications as a React boilerplate.

@@ -14,6 +14,11 @@ export default {
     sortParams: {
 
     },
+    formValue: {
+
+    },
+    newActivityModal: false,
+    operate: 'edit',
   },
 
   effects: {
@@ -26,7 +31,13 @@ export default {
         type: 'setActiManaData',
         list
       })
-    }
+    },
+    *triggleActivityModal({ payload }, { put }) {
+      yield put({
+        type: 'handleActivityModal',
+        payload
+      })
+    },
   },
 
   reducers: {
@@ -36,6 +47,26 @@ export default {
         data: {
           ...state.data,
           list: action.list
+        }
+      }
+    },
+    handleActivityModal(state, action) {
+      return {
+        ...state,
+        newActivityModal: action.payload.newActivityModal,
+        operate: action.payload.operate,
+        formValue: {
+          ...action.payload.formValue
+        }
+      }
+    },
+    setActivityFormValue(state, action) {
+      console.log('啥子东西啊', action)
+      return {
+        ...state,
+        formValue: {
+          ...state.formValue,
+          ...action.payload
         }
       }
     }

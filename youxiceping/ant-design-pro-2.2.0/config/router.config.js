@@ -160,7 +160,29 @@ export default [
         path: '/activityManage',
         name: 'activityManage',
         icon: 'flag',
-        component: './ActivityManage'
+        routes: [
+          {
+            path: '/activityManage',
+            component: './ActivityManage',
+          },
+          {
+            path: '/activityManage/activityUser',
+            component: './ActivityManage/ActivityUser/ActivityUser',
+            hideInMenu: true,
+          },
+        ]
+      },
+      {
+        path: '/authority',
+        name: 'authorityManage',
+        icon: 'unlock',
+        routes: [
+          {
+            path: '/authority',
+            name: 'adminManage',
+            component: './AuthorityManage'
+          },
+        ]
       },
       {
         path: '/profile',

@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Card, Avatar, Divider, Progress, Radio, Upload, Button } from 'antd'
+import { Card, Avatar, Divider, Progress, Radio, Upload, Button, Input } from 'antd'
 import PageHeaderWrapper from '@/components/PageHeaderWrapper'
 
 class BusinessInfo extends Component {
 	state = {
 		radioValue: 'a',
 		avatarUrl: '',
+		isEditing: false,
 		available: [
 			{
 				id: 1,
@@ -98,10 +99,17 @@ class BusinessInfo extends Component {
 		})
 	}
 
+	renew = (allFields) => {
+		console.log(allFields)
+	}
+
 	render() {
-		const { radioValue, available, Overdue, avatarUrl = '' } = this.state
+		const { radioValue, available, Overdue, avatarUrl = '', isEditing } = this.state
 		let statusValue = null
 		statusValue = radioValue === 'a' ? available : Overdue
+		const textStyle = {
+			color: '#6F00FF'
+		}
 		return (
 			/* eslint-disable */
 			<PageHeaderWrapper>
@@ -117,9 +125,21 @@ class BusinessInfo extends Component {
 								</div>
 							</div>
 							<div style={{ marginLeft: 40, display: 'table', flex: 1, transform: 'translateY(50%)' }}>
-								<h2>
-									扶摇职上教育科技有限公司
-									</h2>
+								{
+									isEditing ? <><Input
+										defaultValue='扶摇职上教育科技有限公司'
+										style={{ fontSize: 18, width: 'auto', minWidth: 300, maxWidth: 350 }}
+										disabled={!isEditing}
+									/><span style={{ marginLeft: 10, marginRight: 10, color: '#6F00FF', cursor: 'pointer' }} onClick={this.confirmToModify}>
+											确认
+										</span>
+										<span style={{ color: '#6F00FF', cursor: 'pointer' }} onClick={this.cancleModify}>
+											取消
+										</span></> : <><h2 style={{ display: 'inline-block' }}>
+											扶摇职上教育科技有限公司
+										</h2><span style={{ paddingBottom: 7 }}>修改</span></>
+								}
+								{/* TODOTODO 样式优化 */}
 								<div>
 									hz-career666@163.com
 								</div>
@@ -148,13 +168,13 @@ class BusinessInfo extends Component {
 										<div style={{ padding: 12, border: '1px solid', minWidth: 300, margin: 10, ...boxStyle, ...enableStyle }}>
 											<h3>{item.name}</h3>
 											{
-												item.enable ? <div>有效期至：{item.deadline}</div> : <div></div>
+												item.enable ? <div>有效期至：{item.deadline}</div> : <div style={{ display: 'flex', justifyContent: 'space-between' }}><div style={{ lineHeight: '32px' }}>已过期</div><Button type='danger' onClick={() => this.renew(item)}>点击续费</Button></div>
 											}
-											<Divider />
+											<Divider style={{ marginTop: 15 }} />
 											<div style={{ color: '#aaa' }}>
 												<span>剩余数量</span><span style={{ fontSize: 26, color: '#6F00FF' }}>&nbsp;{item.restNum}&nbsp;</span><span>&nbsp;/&nbsp;购买总数</span><span style={{ fontSize: 26, color: '#111' }}>&nbsp;{item.allNum}&nbsp;</span>
 											</div>
-											<Progress percent={(item.restNum / item.allNum).toFixed(3) * 100} status="active" showInfo={false} strokeColor='#6F00FF' />
+											<Progress percent={(item.restNum / item.allNum).toFixed(3) * 100} status={`${radioValue === 'a' ? 'active' : 'normal '}`} showInfo={false} strokeColor={`${radioValue === 'a' ? '#6F00FF' : '#999999'}`} />
 										</div>
 									)
 								})

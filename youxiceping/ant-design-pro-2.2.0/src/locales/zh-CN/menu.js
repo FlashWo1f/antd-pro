@@ -13,6 +13,8 @@ export default {
   'menu.form.advancedform': '高级表单',
   'menu.activityManage': '活动管理',
   'menu.participantsmanage': '受测者管理',
+  'menu.authorityManage': '权限管理',
+  'menu.authorityManage.adminManage': '管理员设置',
   'menu.list': '列表页',
   'menu.list.searchtable': '查询表格',
   'menu.list.demo': '变强',

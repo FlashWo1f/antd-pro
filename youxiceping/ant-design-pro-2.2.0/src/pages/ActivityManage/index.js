@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
-import { Card, Button, Modal } from 'antd'
+import { Card, Button, Modal, Switch } from 'antd'
 import { connect } from 'dva'
 import SearchForm from './SearchForm'
 import PageHeaderWrapper from '@/components/PageHeaderWrapper'
 import TableOprate from '@/components/TableOprate'
 import StandardTable from '@/components/StandardTable'
+import router from 'umi/router'
+import NewActivity from './NewActivity'
+import { showMessage } from '@/utils/utils'
 
 class ActivityManage extends Component {
   state = {
@@ -22,11 +25,13 @@ class ActivityManage extends Component {
       title: '开始/结束时间',
       dataIndex: 'time',
       width: 120,
+      render: (field, allFields) => `${allFields.startTime} / ${allFields.endTime}`
     },
     {
       title: '公开',
       dataIndex: 'open',
       width: 120,
+      render: field => field ? '是' : '否'
     },
     {
       title: '状态',
@@ -37,6 +42,14 @@ class ActivityManage extends Component {
       title: '活动开关',
       dataIndex: 'actiSwitch',
       width: 120,
+      render: (field, allFields) => {
+        return (
+          <Switch
+            onClick={() => this.triggerActivity(allFields)}
+            checked={field}
+          />
+        )
+      }
     },
     {
       title: '完成人数',
@@ -55,13 +68,54 @@ class ActivityManage extends Component {
     },
     {
       title: '操作',
-      dataIndex: 'workNum',
       width: 120,
+      render: (field, allFields) => {
+        return (
+          <div style={{ color: '#6F00FF', cursor: 'pointer' }}>
+            <span>分享&nbsp;&nbsp;</span><span onClick={() => this.toUserManage(allFields)}>活动用户管理&nbsp;&nbsp;</span><span onClick={() => this.editActivity(allFields)}>更多</span>
+          </div>
+        )
+      }
     },
   ]
 
   componentDidMount() {
     this.queryList()
+  }
+
+  triggerActivity = (e) => {
+    console.log(e)
+    Modal.confirm({
+      title: '确认关闭活动吗',
+      content: '一段文本的长度一段文本的长度一段文本的长度.',
+      okText: '确认',
+      cancelText: '取消',
+      onOk: this.closeActivity
+    })
+  }
+
+  closeActivity = () => {
+    // TODOTODO  生成二维码 qr_code
+    const { dispatch } = this.props
+    dispatch({
+      type: ''
+    })
+  }
+
+  toUserManage = (params) => {
+    router.push(`/activityManage/activityUser`)
+  }
+
+  editActivity = (formValue) => {
+    const { dispatch } = this.props
+    dispatch({
+      type: 'activityManage/triggleActivityModal',
+      payload: {
+        formValue,
+        operate: 'edit',
+        newActivityModal: true
+      }
+    })
   }
 
   queryList = () => {
@@ -79,17 +133,40 @@ class ActivityManage extends Component {
     })
   }
 
+  newActivity = () => {
+    const { dispatch } = this.props
+    dispatch({
+      type: 'activityManage/triggleActivityModal',
+      payload: {
+        operate: 'new',
+        formValue: {},
+        newActivityModal: true
+      }
+    })
+  }
+
+  batchDownload = () => {
+    const { selectedKey } = this.state
+    if (!selectedKey.length) return showMessage('warning', '请选择活动')
+  }
+
+  setFormValue = (payload) => {
+    const { dispatch } = this.props
+    dispatch({
+      type: 'activityManage/setActivityFormValue',
+      payload
+    })
+  }
+
   render() {
-    const { activityManage: { data }, loading } = this.props
+    const { activityManage: { data, newActivityModal: visible, formValue, operate }, loading } = this.props
     return (
       <PageHeaderWrapper>
         <Card>
           <SearchForm />
           <TableOprate>
-            <Button style={{ marginLeft: 15 }} icon='plus'>添加用户</Button>
-            <Button style={{ marginLeft: 15 }} icon='download'>批量下载</Button>
-            <Button style={{ marginLeft: 15 }}>发送通知</Button>
-            <Button style={{ marginLeft: 15 }}>发送报告</Button>
+            <Button style={{ marginLeft: 15 }} icon='plus' onClick={this.newActivity}>新建活动</Button>
+            <Button style={{ marginLeft: 15 }} icon='download' onClick={this.batchDownload}>批量下载</Button>
           </TableOprate>
           <StandardTable
             columns={this.columns}
@@ -98,6 +175,12 @@ class ActivityManage extends Component {
             loading={loading}
             showSelectedRows
             onSelectRow={this.onSelectRow}
+          />
+          <NewActivity
+            visible={visible}
+            formValue={formValue}
+            setFormValue={this.setFormValue}
+            title={operate}
           />
         </Card>
       </PageHeaderWrapper>
