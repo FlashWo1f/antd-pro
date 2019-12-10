@@ -103,6 +103,12 @@ class BusinessInfo extends Component {
 		console.log(allFields)
 	}
 
+	handleEditName = (flag) => {
+		this.setState({
+			isEditing: flag
+		})
+	}
+
 	render() {
 		const { radioValue, available, Overdue, avatarUrl = '', isEditing } = this.state
 		let statusValue = null
@@ -133,11 +139,11 @@ class BusinessInfo extends Component {
 									/><span style={{ marginLeft: 10, marginRight: 10, color: '#6F00FF', cursor: 'pointer' }} onClick={this.confirmToModify}>
 											确认
 										</span>
-										<span style={{ color: '#6F00FF', cursor: 'pointer' }} onClick={this.cancleModify}>
+										<span style={{ color: '#6F00FF', cursor: 'pointer' }} onClick={() => this.handleEditName(false)}>
 											取消
 										</span></> : <><h2 style={{ display: 'inline-block' }}>
 											扶摇职上教育科技有限公司
-										</h2><span style={{ paddingBottom: 7 }}>修改</span></>
+										</h2><span style={{ paddingBottom: 7 }} onClick={() => this.handleEditName(true)}>修改</span></>
 								}
 								{/* TODOTODO 样式优化 */}
 								<div>

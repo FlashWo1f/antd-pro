@@ -80,4 +80,17 @@ const SearchForm = (props) => {
   )
 }
 
-export default Form.create()(SearchForm)
+export default Form.create({
+  name: 'AM-SearchForm',
+  mapPropsToFields: (props) => {
+    const { formValue } = props;
+    return {
+      actiName: Form.createFormField({ value: formValue.actiName }),
+      actiTime: Form.createFormField({ value: formValue.actiTime }),
+      status: Form.createFormField({ value: formValue.status }),
+      open: Form.createFormField({ value: formValue.open }),
+      applicant: Form.createFormField({ value: formValue.applicant }),
+      // updateTime: Form.createFormField({ value: formValue.updateTime }),   // 这里会报错放开
+    }
+  }
+})(SearchForm)

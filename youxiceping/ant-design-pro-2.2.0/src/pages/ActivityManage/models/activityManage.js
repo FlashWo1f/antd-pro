@@ -1,5 +1,6 @@
 import queryActiMana from '@/services/activityManage'
 import { isFn } from '@/utils/utils'
+import moment from 'moment'
 
 export default {
   namespace: 'activityManage',
@@ -19,6 +20,7 @@ export default {
     },
     newActivityModal: false,
     operate: 'edit',
+    ShareModal: false,
   },
 
   effects: {
@@ -33,6 +35,9 @@ export default {
       })
     },
     *triggleActivityModal({ payload }, { put }) {
+      console.log('baiping', payload)
+      // const dealPayload = JSON.parse(JSON.stringify(payload))
+      // dealPayload.time = [moment(payload.startTime), moment(payload.endTime)]
       yield put({
         type: 'handleActivityModal',
         payload
@@ -51,6 +56,14 @@ export default {
       }
     },
     handleActivityModal(state, action) {
+      console.log('reducer', {
+        ...state,
+        newActivityModal: action.payload.newActivityModal,
+        operate: action.payload.operate,
+        formValue: {
+          ...action.payload.formValue
+        }
+      })
       return {
         ...state,
         newActivityModal: action.payload.newActivityModal,
@@ -61,7 +74,6 @@ export default {
       }
     },
     setActivityFormValue(state, action) {
-      console.log('啥子东西啊', action)
       return {
         ...state,
         formValue: {
@@ -69,6 +81,13 @@ export default {
           ...action.payload
         }
       }
-    }
+    },
+    setShareModal(state, action) {
+      console.log('啥子东西啊', action)
+      return {
+        ...state,
+        ShareModal: action.payload.ShareModal
+      }
+    },
   }
 }

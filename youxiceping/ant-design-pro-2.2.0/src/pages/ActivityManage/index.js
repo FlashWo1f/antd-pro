@@ -6,8 +6,10 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper'
 import TableOprate from '@/components/TableOprate'
 import StandardTable from '@/components/StandardTable'
 import router from 'umi/router'
-import NewActivity from './NewActivity'
+import NewActivityModal from './NewActivityModal'
 import { showMessage } from '@/utils/utils'
+import ModalBlank from '@/components/ModalBlank'
+import ShareModal from './ShareModal'
 
 class ActivityManage extends Component {
   state = {
@@ -72,7 +74,7 @@ class ActivityManage extends Component {
       render: (field, allFields) => {
         return (
           <div style={{ color: '#6F00FF', cursor: 'pointer' }}>
-            <span>分享&nbsp;&nbsp;</span><span onClick={() => this.toUserManage(allFields)}>活动用户管理&nbsp;&nbsp;</span><span onClick={() => this.editActivity(allFields)}>更多</span>
+            <span onClick={() => this.handleShare(allFields, true)}>分享&nbsp;&nbsp;</span><span onClick={() => this.toUserManage(allFields)}>活动用户管理&nbsp;&nbsp;</span><span onClick={() => this.editActivity(allFields)}>更多</span>
           </div>
         )
       }
@@ -81,6 +83,16 @@ class ActivityManage extends Component {
 
   componentDidMount() {
     this.queryList()
+  }
+
+  handleShare = (allFields, flag) => {
+    const { dispatch } = this.props
+    dispatch({
+      type: 'activityManage/setShareModal',
+      payload: {
+        ShareModal: flag
+      }
+    })
   }
 
   triggerActivity = (e) => {
@@ -158,12 +170,17 @@ class ActivityManage extends Component {
     })
   }
 
+  downloadShare = () => {
+
+  }
+
+
   render() {
-    const { activityManage: { data, newActivityModal: visible, formValue, operate }, loading } = this.props
+    const { activityManage: { data, newActivityModal: visible, formValue, operate, ShareModal: ShareModalVisible }, loading } = this.props
     return (
       <PageHeaderWrapper>
         <Card>
-          <SearchForm />
+          <SearchForm formValue={formValue} />
           <TableOprate>
             <Button style={{ marginLeft: 15 }} icon='plus' onClick={this.newActivity}>新建活动</Button>
             <Button style={{ marginLeft: 15 }} icon='download' onClick={this.batchDownload}>批量下载</Button>
@@ -176,12 +193,16 @@ class ActivityManage extends Component {
             showSelectedRows
             onSelectRow={this.onSelectRow}
           />
-          <NewActivity
+          <NewActivityModal
             visible={visible}
             formValue={formValue}
             setFormValue={this.setFormValue}
             title={operate}
           />
+          <ModalBlank visible={ShareModalVisible}>
+            <ShareModal handleShare={this.handleShare} downloadShare={this.downloadShare} />
+          </ModalBlank>
+
         </Card>
       </PageHeaderWrapper>
     );

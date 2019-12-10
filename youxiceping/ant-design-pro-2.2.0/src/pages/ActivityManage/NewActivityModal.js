@@ -9,7 +9,7 @@ const formLayout = {
   wrapperCol: { span: 16 },
 }
 
-class NewActivity extends Component {
+class NewActivityModal extends Component {
   state = {
     tags: ['Unremovable', 'Tag 2', 'Tag 3'],
     inputVisible: false,
@@ -53,7 +53,9 @@ class NewActivity extends Component {
     window.g_app._store.dispatch({
       type: 'activityManage/triggleActivityModal',
       payload: {
-        newActivityModal: false
+        newActivityModal: false,
+        formValue: {},
+        operate: '',
       }
     })
   }
@@ -164,14 +166,13 @@ export default Form.create({
   //   setFormValue({ ...data, startTime, endTime })
   // },
   mapPropsToFields: (props) => {
-    // console.log('kkkkk', props)
     const { formValue } = props
     return {
       activityName: Form.createFormField({ value: formValue.activityName }),
       activityMark: Form.createFormField({ value: formValue.activityMark }),
       open: Form.createFormField({ value: formValue.open }),
       isSee: Form.createFormField({ value: formValue.isSee }),
-      activityTime: Form.createFormField({ value: [formValue.startTime && moment(formValue.startTime), formValue.endTime && moment(formValue.endTime)] }),
+      activityTime: Form.createFormField({ value: [formValue.startTime && moment(formValue.startTime), formValue.endTime && moment(formValue.endTime)] || [] }),
     }
   }
-})(NewActivity);
+})(NewActivityModal);
